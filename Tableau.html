@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Emploi du temps</title>
+		<style>
+			table, th, td {
+				border : 1px solid black;
+				padding : 7px;
+				text-align: center;
+			}
+			
+			
+		</style>
+		<script>
+			var nbLignes = 9;
+			var nbCols = 8;
+			var Jour = "";
+			var Lig1DuTableau = ",&nbspLundi &nbsp,Mardi ,Mercredi ,Jeudi ,Vendredi ,Samedi ,Dimanche ";
+			function CreateTableau(){
+				/* Création de la structure du Tableau à deux Dimensions */
+				var tab = new Array(); 
+				for (k=0; k < nbLignes; k++){
+					tab[k] = new Array();
+				}
+
+				tab[0] = Lig1DuTableau.split(","); /* insert les noms de jours dans la première ligne du tableau */
+
+				for (l=1; l<nbLignes; l++){ /* inser les plages horaires dans la premièrie colonne du tableau */
+					tab[l][0] = (l+8)+"h - "+(l+9)+"h ";
+				}
+				
+				
+				for (m=1; m < nbLignes ; m++){
+					for (n=1; n < nbCols ; n++){
+						tab[m][n] = "&nbsp";
+					}
+				}
+						
+				var Conteneur = "<table>";
+				Conteneur.concat("<tr>");
+				for (j=0; j<nbCols; j++){
+					Conteneur += "<th>" + tab[0][j] + "</th>";
+				}
+				Conteneur += "</tr>";
+				for (i=1; i<nbLignes; i++){
+					Conteneur += '<tr>';
+					for (j=0; j<nbCols; j++){
+						Conteneur += '<td onclick="SendPosition('+i+','+j+')" id=cel' +i+j+ ' style = "background-color : #880088;">' + tab[i][j] + "</td>";
+					}
+					Conteneur += "</tr>";
+				}
+				Conteneur += "</table>";
+				return Conteneur;
+				//document.body.innerHTML=Conteneur;
+			}
+			
+			function SendPosition(Lig,Col){
+				document.getElementById("Lig").value = Lig;
+				document.getElementById("Col").value = Col;
+				document.getElementById("input01").focus();
+//				
+			}
+			function redimensionneListe(maListe){
+				var maListe2 = document.getElementById(maListe);
+				maListe2.size = maListe2.options.length;
+			}
+			
+			function MiseEnForme()
+			{
+				var EnGras = document.getElementById("EnGras").value;
+
+				var EnItalique = document.getElementById("EnItalique").value;
+
+				var Color = document.getElementById("Couleur").value;
+
+				var TailleChar = document.getElementById("TailleChar").value;
+				TailleChar = (TailleChar/2)+"em";
+				
+				var PoliceDeChar = document.getElementById("PoliceDeChar").value;
+
+				var lig	= document.getElementById("Lig").value;
+				var col = document.getElementById("Col").value;
+				var texte = document.getElementById("input01").value;
+				var cellule = "cel"+lig+col;
+
+				document.getElementById(cellule).style.fontFamily = PoliceDeChar;
+
+				document.getElementById(cellule).style.fontWeight = EnGras;
+
+				document.getElementById(cellule).style.fontStyle = EnItalique;
+
+				document.getElementById(cellule).style.fontSize = TailleChar;
+
+				document.getElementById(cellule).style.color = Color;
+
+				document.getElementById(cellule).innerHTML = texte;
+				
+				
+			}
+			function insertCouleurBkGrnd(){
+				var BgColorChoisi = document.getElementById("MybackgroundColor").value;
+				var lig = document.getElementById("Lig").value;
+				var col = document.getElementById("Col").value;
+				var cellule = "cel"+lig+col;
+				document.getElementById(cellule).style.backgroundColor = BgColorChoisi ;
+			}
+		</script>
+	</head>	
+
+
+	<body BGCOLOR="#009999">
+
+		<h1  > Emploi du temps </h1>
+		
+		<div id="monDiv">
+			contenu du Div
+		</div>
+		<script>
+			Conteneur = CreateTableau();
+			document.getElementById("monDiv").innerHTML = Conteneur;
+		</script>
+
+		<h3>Données du tableau</h3>
+
+		<FORM> 
+			<input type="text" size="4" id="Lig" placeholder="No Ligne" /> 
+			<input type="text" size="4" id="Col" placeholder="No Colonne" /> 
+			<input type="text" id="input01" placeholder="texte à insérer" /> 
+		</FORM> 
+			<h3>Mise en forme des cellules</h3>
+		<FORM>
+			<select id="EnGras">
+				<option value="bold">Gras</option>
+				<option value="normal">Normal</option>
+			</select>
+			<script> redimensionneListe("EnGras") </script>
+
+			<select id="EnItalique">
+				<option value="Normal">Normal</option>
+				<option value="italic">Italique</option>
+			</select>
+			<script> redimensionneListe("EnItalique") </script>
+
+			<select id="Couleur">
+				<option value="#ff0000" style="background-color: #ff0000">Rouge</option>
+				<option value="#00ff00" style="background-color: #00ff00">Vert</option>
+				<option value="#0000ff" style="background-color: #0000ff; color : #ffffff">Bleu</option>
+				<option value="#000000" style="background-color: #000000; color : #ffffff">Noir</option>
+				<option value="#ffffff" style="background-color: #ffffff">Blanc</option>
+			</select>
+			<script> redimensionneListe("Couleur") </script>
+
+			<select id="PoliceDeChar">
+				<option value="verdana">verdana</option>
+				<option value="Georgia">Georgia</option>
+				<option value="serif">serif</option>
+				<option value="Times New Roman">Times New Roman</option>
+				<option value="Helvetica">Helvetica</option>
+				<option value="Arial">Arial</option>
+				<option value="Geneva">Geneva</option>
+				<option value="Tahoma">Tahoma</option>
+				<option value="Impact">Impact</option>
+				<option value="Charcoal">Charcoal</option>
+			</select>
+			<script> redimensionneListe("PoliceDeChar") </script>
+
+			<select id="TailleChar">
+				<option value="7">Font size 7 </option>
+				<option value="6">Font size 6 </option>
+				<option value="5">Font size 5 </option>
+				<option value="4">Font size 4 </option>
+				<option value="3">Police Normal</option>
+				<option value="2">Petite Police</option>
+				<option value="1">Très Petite Police</option>
+			</select>
+			<script> redimensionneListe("TailleChar") </script>
+		</FORM>
+		</br>
+		</br>
+
+		<INPUT type="button" value="Pour insérer le texte formaté dans le tableau" onClick="MiseEnForme()">
+		</br>
+			<h3>Mise en Couleur du Background des cellules</h3>
+		<label for="MybackgroundColor">Choose a color for background:&nbsp&nbsp</label><input id="MybackgroundColor" value="#FFFFFF" type="color" />
+		</br>
+		<BR/>
+		<INPUT type="button" value="Pour insérer le backgroude color dans la cellule" onClick="insertCouleurBkGrnd()">
+	</body>
+</html>
