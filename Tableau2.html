@@ -113,7 +113,7 @@
 				var Color = document.getElementById("Couleur").value;
 
 				var TailleChar = document.getElementById("TailleChar").value;
-				TailleChar = (TailleChar/2)+"em";
+				TailleChar = (TailleChar/3)+"em";
 				
 				var PoliceDeChar = document.getElementById("PoliceDeChar").value;
 
@@ -206,7 +206,7 @@
 				<legend> Données du tableau </legend>
 				<input type="text" size="6" id="Lig" placeholder="No Ligne" /> 
 				<input type="text" size="6" id="Col" placeholder="No Colonne" /> <br/><br/>
-				<input type="text" size="22" id="input01" placeholder="texte ou image à insérer" /> 
+				<input type="text" onkeypress="if (event.keyCode==13){ MiseEnForme(); event.preventDefault(); return false; }" size="22" id="input01" placeholder="texte ou image à insérer" /> 
 				</fieldset>
 			</div>
 			<div id="PutTextInTable">
@@ -220,14 +220,14 @@
 				<legend> Mise en forme des cellules </legend>
 				<div div1>
 					<select id="EnGras">
-						<option value="bold">Gras</option>
+						<option value="bold" style="font-weight:bolder" >Gras</option>
 						<option value="normal">Normal</option>
 					</select>
 					<script> redimensionneListe("EnGras") </script>
 
 					<select id="EnItalique">
-						<option value="Normal">Normal</option>
-						<option value="italic">Italique</option>
+						<option value="normal">Normal</option>
+						<option value="italic" style="font-style:oblique" >Italique</option>
 					</select>
 					<script> redimensionneListe("EnItalique") </script>
 
@@ -239,7 +239,7 @@
 						<option value="fuchsia" style="background-color: fuchsia;">Fuchsia</option>
 						<option value="violet" style="background-color: violet;">Violet</option>
 						<option value="navy" style="background-color: navy; color : #ffffff">Navy</option>
-						<option value="aqua" style="background-color: aqua;">Aqua</option>
+						<option value="aqua" style="background-color: aqua;" selected>Aqua</option>
 						<option value="olive" style="background-color: olive; color : #ffffff;" >Olive</option>
 						<option value="lime" style="background-color: lime;">Citron vert</option>
 						<option value="maroon" style="background-color: maroon; color : #ffffff">Maron</option>
@@ -266,15 +266,17 @@
 					<script> redimensionneListe("PoliceDeChar") </script>
 
 					<select id="TailleChar" style="margin: none">
-						<option value="7">Font size 7 </option>
-						<option value="6">Font size 6 </option>
-						<option value="5">Font size 5 </option>
-						<option value="4">Font size 4 </option>
-						<option value="3">Police Normal</option>
-						<option value="2">Petite Police</option>
-						<option value="1">Très Petite Police</option>
+						<option value="2" style="font-size:0.66em">Très Petite Police</option>
+						<option value="3" style="font-size:1em">Petite Police</option>
+						<option value="4" style="font-size:1.33em">Police Normal</option>
+						<option value="5" style="font-size:1.66em" selected>Font size 4 </option>
+						<option value="6" style="font-size:2em">Font size 5 </option>
+						<option value="7" style="font-size:2.33em">Font size 6 </option>
+						<option value="8" style="font-size:2.67em">Font size 7 </option>
+						<option value="9" style="font-size:3em">Font size 8 </option>
+						<option value="10" style="font-size:3.33em">Font size 9 </option>
 					</select>
-					<script> redimensionneListe("TailleChar") </script>
+					<script> document.getElementById("TailleChar").size = document.getElementById("TailleChar").options.length *2.9; </script>
 					</br>
 				</div>
 			</fieldset>
