@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Emploi du temps</title>
+		<style>
+			body{
+				background: linear-gradient(to bottom right, #00a9e0 0%,#323290 20%, #ea1688 40%, #eb2e2e 60%,#fde92e 80%,#009e54 100%);
+			}
+			table, th, td {
+				border : 1px solid black;
+				padding : 7px;
+				text-align: center;
+			}
+			option, select{
+				font-weight: bold;
+				font-size: 16px;
+			}
+			input, label{
+				font-size: 16px;
+			}
+			legend{
+				font-size: 1.2em;
+				font-weight: bold;
+			}
+			#form1{
+				display: inline-block;
+				float: left;
+				width: 250px;
+				height: 50px;
+//				float: left;
+			}
+			#PutTextInTable{
+				display: inline-block;
+				height: 50px;
+				margin: 15px;
+			}
+			#form2{
+				display: inline-block;
+				vertical-align: top;
+				width:48.5%;
+				float: left;
+				margin-right: 1px;
+				//width: 360px;
+			}
+			#form3{
+				vertical-align: top;
+				//vertical-align: top;
+			}
+			
+			
+		</style>
+		<script>
+			var nbLignes = 9;
+			var nbCols = 8;
+			var Jour = "";
+			var Lig1DuTableau = ",&nbspLundi &nbsp,Mardi ,Mercredi ,Jeudi ,Vendredi ,Samedi ,Dimanche ";
+			function CreateTableau(){
+				/* Création de la structure du Tableau à deux Dimensions */
+				var tab = new Array(); 
+				for (k=0; k < nbLignes; k++){
+					tab[k] = new Array();
+				}
+
+				tab[0] = Lig1DuTableau.split(","); /* insert les noms de jours dans la première ligne du tableau */
+
+				for (l=1; l<nbLignes; l++){ /* inser les plages horaires dans la premièrie colonne du tableau */
+					tab[l][0] = (l+8)+"h - "+(l+9)+"h ";
+				}
+				
+				
+				for (m=1; m < nbLignes ; m++){
+					for (n=1; n < nbCols ; n++){
+						tab[m][n] = "&nbsp";
+					}
+				}
+						
+				var Conteneur = "<table>";
+				Conteneur.concat("<tr>");
+				for (j=0; j<nbCols; j++){
+					Conteneur += "<th>" + tab[0][j] + "</th>";
+				}
+				Conteneur += "</tr>";
+				for (i=1; i<nbLignes; i++){
+					Conteneur += '<tr>';
+					for (j=0; j<nbCols; j++){
+						Conteneur += '<td onclick="SendPosition('+i+','+j+')" id=cel'+i+j+' style = "background-color : #880088;">'+tab[i][j]+'</td>';
+					}
+					Conteneur += "</tr>";
+				}
+				Conteneur += "</table>";
+				return Conteneur;
+				//document.body.innerHTML=Conteneur;
+			}
+			
+			function SendPosition(Lig,Col){
+				document.getElementById("Lig").value = Lig;
+				document.getElementById("Col").value = Col;
+				document.getElementById("input01").focus();
+//				
+			}
+			function redimensionneListe(maListe){
+				var maListe2 = document.getElementById(maListe);
+				maListe2.size = maListe2.options.length;
+			}
+			
+			function MiseEnForme()
+			{
+				var EnGras = document.getElementById("EnGras").value;
+
+				var EnItalique = document.getElementById("EnItalique").value;
+
+				var Color = document.getElementById("Couleur").value;
+
+				var TailleChar = document.getElementById("TailleChar").value;
+				TailleChar = (TailleChar/2)+"em";
+				
+				var PoliceDeChar = document.getElementById("PoliceDeChar").value;
+
+				var lig	= document.getElementById("Lig").value;
+				var col = document.getElementById("Col").value;
+				var texte = document.getElementById("input01").value;
+				var cellule = "cel"+lig+col;
+				var celluleSAV = cellule.valueOf();
+				
+				document.getElementById(cellule).style.fontFamily = PoliceDeChar;
+				window.localStorage.setItem("Polcel"+lig+col, PoliceDeChar);
+
+				document.getElementById(cellule).style.fontWeight = EnGras;
+				window.localStorage.setItem("Grcel"+lig+col, EnGras);
+
+				document.getElementById(cellule).style.fontStyle = EnItalique;
+				window.localStorage.setItem("Itcel"+lig+col, EnItalique);
+
+				document.getElementById(cellule).style.fontSize = TailleChar;
+				window.localStorage.setItem("Sizecel"+lig+col, TailleChar);
+
+				document.getElementById(cellule).style.color = Color;
+				window.localStorage.setItem("Colcel"+lig+col, Color);
+
+				document.getElementById(cellule).innerHTML = texte;
+				window.localStorage.setItem("cel"+lig+col, texte);
+//				alert (window.localStorage.getItem("cel"+lig+col)+" ------ "+lig+" "+col);
+			}
+			function insertCouleurBkGrnd(){
+				var BgColorChoisi = document.getElementById("MybackgroundColor").value;
+				var lig = document.getElementById("Lig").value;
+				var col = document.getElementById("Col").value;
+				var cellule = "cel"+lig+col;
+				document.getElementById(cellule).style.backgroundColor = BgColorChoisi ;
+				window.localStorage.setItem("BgCcel"+lig+col, BgColorChoisi);
+			}
+			function MajCellules(){
+				for (i=1; i<nbLignes; i++){
+					Conteneur += '<tr>';
+					for (j=1; j<nbCols; j++){
+						if (typeof(window.localStorage) != 'undefined'){
+							if (localStorage.getItem("cel"+i+j)){
+								var cellule = "cel"+i+j;
+								document.getElementById(cellule).innerHTML = localStorage.getItem(cellule); 
+								document.getElementById(cellule).style.fontFamily = localStorage.getItem("Pol"+cellule);
+								document.getElementById(cellule).style.fontWeight = localStorage.getItem("Gr"+cellule);
+								document.getElementById(cellule).style.fontStyle = localStorage.getItem("It"+cellule);
+								document.getElementById(cellule).style.fontSize = localStorage.getItem("Size"+cellule);
+								document.getElementById(cellule).style.color = localStorage.getItem("Col"+cellule);
+							}else{
+								localStorage.setItem('"cel'+i+j+'"',"&nbsp");
+							}
+							if (localStorage.getItem("BgCcel"+i+j)){
+								var cellule = "cel"+i+j;
+								document.getElementById(cellule).style.backgroundColor = localStorage.getItem("BgCcel"+i+j);
+							}else{
+								localStorage.setItem("BgCcel"+i+j,"#880088");
+							}
+						}
+					}
+				}
+			}
+			function incererQuelquesImages(){
+				
+			}
+
+
+//***************	document.getElementById("cel"+m+n).innerHTML = localStorage.getItem("cel"+m+n)	***********
+		</script>
+	</head>	
+
+
+	<body BGCOLOR="#009999">
+
+		<!-- <h1  > Emploi du temps </h1> -->
+		
+		<div id="monDiv">
+			contenu du Div
+		</div>
+		<script>
+			Conteneur = CreateTableau();
+			document.getElementById("monDiv").innerHTML = Conteneur;
+			MajCellules();
+			;
+		</script>
+
+		<form id="form1"> 
+			<div>
+				<fieldset>
+				<legend> Données du tableau </legend>
+				<input type="text" size="6" id="Lig" placeholder="No Ligne" /> 
+				<input type="text" size="6" id="Col" placeholder="No Colonne" /> <br/><br/>
+				<input type="text" size="22" id="input01" placeholder="texte ou image à insérer" /> 
+				</fieldset>
+			</div>
+			<div id="PutTextInTable">
+				<INPUT type="button" value="Put Text or Image in Table" onClick="MiseEnForme()">
+			</div>
+		</form> 
+		<form>
+		</form>
+		<form id="form2">
+			<fieldset>
+				<legend> Mise en forme des cellules </legend>
+				<div div1>
+					<select id="EnGras">
+						<option value="bold">Gras</option>
+						<option value="normal">Normal</option>
+					</select>
+					<script> redimensionneListe("EnGras") </script>
+
+					<select id="EnItalique">
+						<option value="Normal">Normal</option>
+						<option value="italic">Italique</option>
+					</select>
+					<script> redimensionneListe("EnItalique") </script>
+
+					<select id="Couleur">
+						<option value="red" style="background-color: red">Rouge</option>
+						<option value="green" style="background-color: green">Vert</option>
+						<option value="blue" style="background-color: blue; color : #ffffff">Bleu</option>
+						<option value="yellow" style="background-color: yellow;">Jaune</option>
+						<option value="fuchsia" style="background-color: fuchsia;">Fuchsia</option>
+						<option value="violet" style="background-color: violet;">Violet</option>
+						<option value="navy" style="background-color: navy; color : #ffffff">Navy</option>
+						<option value="aqua" style="background-color: aqua;">Aqua</option>
+						<option value="olive" style="background-color: olive; color : #ffffff;" >Olive</option>
+						<option value="lime" style="background-color: lime;">Citron vert</option>
+						<option value="maroon" style="background-color: maroon; color : #ffffff">Maron</option>
+						<option value="teal" style="background-color: teal; color : #ffffff">Bleu Sarcelle</option>
+						<option value="#000000" style="background-color: #000000; color : #ffffff">Noir</option>
+						<option value="gray" style="background-color: gray; color : #ffffff">Gris</option>
+						<option value="silver" style="background-color: silver;">Gris Clair</option>
+						<option value="#ffffff" style="background-color: #ffffff">Blanc</option>
+					</select>
+					<script> redimensionneListe("Couleur") </script>
+
+					<select id="PoliceDeChar">
+						<option style="font-family: verdana" value="verdana">verdana</option>
+						<option style="font-family: Georgia" value="Georgia">Georgia</option>
+						<option style="font-family: serif" value="serif">serif</option>
+						<option style="font-family: Times New Roman" value="Times New Roman">Times New Roman</option>
+						<option style="font-family: Helvetica" value="Helvetica">Helvetica</option>
+						<option style="font-family: Arial" value="Arial">Arial</option>
+						<option style="font-family: Geneva" value="Geneva">Geneva</option>
+						<option style="font-family: Tahoma" value="Tahoma">Tahoma</option>
+						<option style="font-family: Impact" value="Impact">Impact</option>
+						<option style="font-family: Charcoal" value="Charcoal">Charcoal</option>
+					</select>
+					<script> redimensionneListe("PoliceDeChar") </script>
+
+					<select id="TailleChar" style="margin: none">
+						<option value="7">Font size 7 </option>
+						<option value="6">Font size 6 </option>
+						<option value="5">Font size 5 </option>
+						<option value="4">Font size 4 </option>
+						<option value="3">Police Normal</option>
+						<option value="2">Petite Police</option>
+						<option value="1">Très Petite Police</option>
+					</select>
+					<script> redimensionneListe("TailleChar") </script>
+					</br>
+				</div>
+			</fieldset>
+		</form>
+		<form id="form3">
+			<div>
+				<fieldset>
+					<legend> Couleur de Fond des cellules </legend>
+					<h2></h2>
+					<label for="MybackgroundColor">Choose a color for background:&nbsp&nbsp</label><input id="MybackgroundColor" value="#FFFFFF" type="color" />
+					</br>
+					<BR/>
+					<INPUT type="button" value="insérer le backgrounde color dans la cellule" onClick="insertCouleurBkGrnd()">
+				</fieldset>
+			</div>
+		</form>
+	</body>
+</html>
