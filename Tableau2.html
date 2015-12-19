@@ -97,7 +97,34 @@
 				document.getElementById("Lig").value = Lig;
 				document.getElementById("Col").value = Col;
 				document.getElementById("input01").focus();
-//				
+
+				var cellule = "cel"+Lig+Col;
+				
+				var PoliceDeChar = document.getElementById(cellule).style.fontFamily;
+				var EnGras = document.getElementById(cellule).style.fontWeight;
+				var EnItalique = document.getElementById(cellule).style.fontStyle;
+				var TailleChar = document.getElementById(cellule).style.fontSize;
+				var Color = document.getElementById(cellule).style.color;
+				var texte = document.getElementById(cellule).innerHTML;
+				var BgColorChoisi = document.getElementById(cellule).style.backgroundColor;
+//				alert(BgColorChoisi);
+				
+				if (texte.search("&nbsp")){
+					document.getElementById("EnGras").value = EnGras;
+					document.getElementById("EnItalique").value = EnItalique;
+					document.getElementById("Couleur").value = Color;
+					
+					if (TailleChar){
+						var TailleTemp = Math.round(parseFloat(TailleChar) * 3);
+						document.getElementById("TailleChar").value = TailleTemp;
+					}
+					
+					document.getElementById("PoliceDeChar").value = PoliceDeChar;
+					document.getElementById("input01").value = texte;
+					document.getElementById("MybackgroundColor").value = BgColorChoisi;
+				}
+
+				document.getElementById("input01").focus();
 			}
 			function redimensionneListe(maListe){
 				var maListe2 = document.getElementById(maListe);
@@ -120,6 +147,10 @@
 				var lig	= document.getElementById("Lig").value;
 				var col = document.getElementById("Col").value;
 				var texte = document.getElementById("input01").value;
+//				alert(text.valu);
+//				if (text.size()==0){
+//					text = "&nbsp";
+//				}
 				var cellule = "cel"+lig+col;
 				var celluleSAV = cellule.valueOf();
 				
@@ -147,6 +178,7 @@
 				var lig = document.getElementById("Lig").value;
 				var col = document.getElementById("Col").value;
 				var cellule = "cel"+lig+col;
+//				alert(BgColorChoisi);
 				document.getElementById(cellule).style.backgroundColor = BgColorChoisi ;
 				window.localStorage.setItem("BgCcel"+lig+col, BgColorChoisi);
 			}
@@ -286,7 +318,7 @@
 				<fieldset>
 					<legend> Couleur de Fond des cellules </legend>
 					<h2></h2>
-					<label for="MybackgroundColor">Choose a color for background:&nbsp&nbsp</label><input id="MybackgroundColor" value="#FFFFFF" type="color" />
+					<label for="MybackgroundColor">Choose a color for background:&nbsp&nbsp</label><input id="MybackgroundColor" value="#880088" type="color" />
 					</br>
 					<BR/>
 					<INPUT type="button" value="insérer le backgrounde color dans la cellule" onClick="insertCouleurBkGrnd()">
