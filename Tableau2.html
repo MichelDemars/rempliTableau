@@ -9,13 +9,32 @@
 			}
 			table, th, td {
 				border : 1px solid black;
-				padding : 7px;
+				padding : 5px;
 				text-align: center;
 			}
 			option, select{
 				font-weight: bold;
-				font-size: 16px;
+				font-size: 18px;
 			}
+			#div2{
+				display: inline-block;
+				margin-right: 8px;
+			}
+			#divGras, #divItalique, #PoliceDeChar, #Couleur, #TailleChar{
+				margin-bottom:8px;
+			}
+			#div3{
+				display: inline-block;
+				margin-right: 8px;
+			}
+			#div4{
+				display: inline-block;
+			}
+			#EnGras{
+			}
+			EnItalique{
+			}
+			
 			input, label{
 				font-size: 16px;
 			}
@@ -24,11 +43,11 @@
 				font-weight: bold;
 			}
 			#form1{
+				margin-top: 5px;
 				display: inline-block;
 				float: left;
-				width: 250px;
+				width: 270px;
 				height: 50px;
-//				float: left;
 			}
 			#PutTextInTable{
 				display: inline-block;
@@ -36,19 +55,17 @@
 				margin: 15px;
 			}
 			#form2{
+				margin-top: 5px;
 				display: inline-block;
 				vertical-align: top;
 				width:48.5%;
 				float: left;
 				margin-right: 1px;
-				//width: 360px;
 			}
 			#form3{
+				margin-top: 5px;
 				vertical-align: top;
-				//vertical-align: top;
 			}
-			
-			
 		</style>
 		<script>
 			var nbLignes = 9;
@@ -126,9 +143,15 @@
 
 				document.getElementById("input01").focus();
 			}
-			function redimensionneListe(maListe){
+			function redimensionneListe(maListe, Ajustement){
+				var Ajust;
+				if (Ajustement > 0){
+					Ajust = Ajustement;
+				}else{
+					Ajust =1;
+				}
 				var maListe2 = document.getElementById(maListe);
-				maListe2.size = maListe2.options.length;
+				maListe2.size = maListe2.options.length * Ajust;
 			}
 			
 			function MiseEnForme()
@@ -238,7 +261,7 @@
 				<legend> Données du tableau </legend>
 				<input type="text" size="6" id="Lig" placeholder="No Ligne" /> 
 				<input type="text" size="6" id="Col" placeholder="No Colonne" /> <br/><br/>
-				<input type="text" onkeypress="if (event.keyCode==13){ MiseEnForme(); event.preventDefault(); return false; }" size="22" id="input01" placeholder="texte ou image à insérer" /> 
+				<textarea  rows="4" cols="28" onkeypress="if (event.keyCode==13){ MiseEnForme(); event.preventDefault(); return false; }" size="22" id="input01" placeholder="texte ou image à insérer" > </textarea>
 				</fieldset>
 			</div>
 			<div id="PutTextInTable">
@@ -250,65 +273,75 @@
 		<form id="form2">
 			<fieldset>
 				<legend> Mise en forme des cellules </legend>
-				<div div1>
-					<select id="EnGras">
-						<option value="bold" style="font-weight:bolder" >Gras</option>
-						<option value="normal">Normal</option>
-					</select>
-					<script> redimensionneListe("EnGras") </script>
+				<div id="div1">
+					<div id="div2">
+						<div id="divGras">
+						<select id="EnGras">
+							<option value="bold" style="font-weight:bolder" >Gras</option>
+							<option value="normal">Normal</option>
+						</select>
+						<script> redimensionneListe("EnGras") </script>
+						</div>
+						<div id="divItalique">
+						<select id="EnItalique">
+							<option value="normal">Normal</option>
+							<option value="italic" style="font-style:oblique" >Italique</option>
+						</select>
+						<script> redimensionneListe("EnItalique") </script>
+						</div>
+						<div>
+						<select id="PoliceDeChar">
+							<option style="font-family: verdana" value="verdana">verdana</option>
+							<option style="font-family: Georgia" value="Georgia">Georgia</option>
+							<option style="font-family: serif" value="serif">serif</option>
+							<option style="font-family: Times New Roman" value="Times New Roman">Times New Roman</option>
+							<option style="font-family: Helvetica" value="Helvetica">Helvetica</option>
+							<option style="font-family: Arial" value="Arial">Arial</option>
+							<option style="font-family: Geneva" value="Geneva">Geneva</option>
+							<option style="font-family: Tahoma" value="Tahoma">Tahoma</option>
+							<option style="font-family: Impact" value="Impact">Impact</option>
+							<option style="font-family: Charcoal" value="Charcoal">Charcoal</option>
+						</select>
+						<script> redimensionneListe("PoliceDeChar",1.1) </script>
+						</div>
+					</div>
 
-					<select id="EnItalique">
-						<option value="normal">Normal</option>
-						<option value="italic" style="font-style:oblique" >Italique</option>
-					</select>
-					<script> redimensionneListe("EnItalique") </script>
-
-					<select id="Couleur">
-						<option value="red" style="background-color: red">Rouge</option>
-						<option value="green" style="background-color: green">Vert</option>
-						<option value="blue" style="background-color: blue; color : #ffffff">Bleu</option>
-						<option value="yellow" style="background-color: yellow;">Jaune</option>
-						<option value="fuchsia" style="background-color: fuchsia;">Fuchsia</option>
-						<option value="violet" style="background-color: violet;">Violet</option>
-						<option value="navy" style="background-color: navy; color : #ffffff">Navy</option>
-						<option value="aqua" style="background-color: aqua;" selected>Aqua</option>
-						<option value="olive" style="background-color: olive; color : #ffffff;" >Olive</option>
-						<option value="lime" style="background-color: lime;">Citron vert</option>
-						<option value="maroon" style="background-color: maroon; color : #ffffff">Maron</option>
-						<option value="teal" style="background-color: teal; color : #ffffff">Bleu Sarcelle</option>
-						<option value="#000000" style="background-color: #000000; color : #ffffff">Noir</option>
-						<option value="gray" style="background-color: gray; color : #ffffff">Gris</option>
-						<option value="silver" style="background-color: silver;">Gris Clair</option>
-						<option value="#ffffff" style="background-color: #ffffff">Blanc</option>
-					</select>
-					<script> redimensionneListe("Couleur") </script>
-
-					<select id="PoliceDeChar">
-						<option style="font-family: verdana" value="verdana">verdana</option>
-						<option style="font-family: Georgia" value="Georgia">Georgia</option>
-						<option style="font-family: serif" value="serif">serif</option>
-						<option style="font-family: Times New Roman" value="Times New Roman">Times New Roman</option>
-						<option style="font-family: Helvetica" value="Helvetica">Helvetica</option>
-						<option style="font-family: Arial" value="Arial">Arial</option>
-						<option style="font-family: Geneva" value="Geneva">Geneva</option>
-						<option style="font-family: Tahoma" value="Tahoma">Tahoma</option>
-						<option style="font-family: Impact" value="Impact">Impact</option>
-						<option style="font-family: Charcoal" value="Charcoal">Charcoal</option>
-					</select>
-					<script> redimensionneListe("PoliceDeChar") </script>
-
-					<select id="TailleChar" style="margin: none">
-						<option value="2" style="font-size:0.66em">Très Petite Police</option>
-						<option value="3" style="font-size:1em">Petite Police</option>
-						<option value="4" style="font-size:1.33em">Police Normal</option>
-						<option value="5" style="font-size:1.66em" selected>Font size 4 </option>
-						<option value="6" style="font-size:2em">Font size 5 </option>
-						<option value="7" style="font-size:2.33em">Font size 6 </option>
-						<option value="8" style="font-size:2.67em">Font size 7 </option>
-						<option value="9" style="font-size:3em">Font size 8 </option>
-						<option value="10" style="font-size:3.33em">Font size 9 </option>
-					</select>
-					<script> document.getElementById("TailleChar").size = document.getElementById("TailleChar").options.length *2.9; </script>
+					<div id="div3">
+						<select id="Couleur">
+							<option value="red" style="background-color: red">Rouge</option>
+							<option value="green" style="background-color: green">Vert</option>
+							<option value="blue" style="background-color: blue; color : #ffffff">Bleu</option>
+							<option value="yellow" style="background-color: yellow;">Jaune</option>
+							<option value="fuchsia" style="background-color: fuchsia;">Fuchsia</option>
+							<option value="violet" style="background-color: violet;">Violet</option>
+							<option value="navy" style="background-color: navy; color : #ffffff">Navy</option>
+							<option value="aqua" style="background-color: aqua;" selected>Aqua</option>
+							<option value="olive" style="background-color: olive; color : #ffffff;" >Olive</option>
+							<option value="lime" style="background-color: lime;">Citron vert</option>
+							<option value="maroon" style="background-color: maroon; color : #ffffff">Maron</option>
+							<option value="teal" style="background-color: teal; color : #ffffff">Bleu Sarcelle</option>
+							<option value="#000000" style="background-color: #000000; color : #ffffff">Noir</option>
+							<option value="gray" style="background-color: gray; color : #ffffff">Gris</option>
+							<option value="silver" style="background-color: silver;">Gris Clair</option>
+							<option value="#ffffff" style="background-color: #ffffff">Blanc</option>
+						</select>
+						<script> redimensionneListe("Couleur") </script>
+					</div>
+					<div id="div4">
+						<select id="TailleChar" style="margin: none">
+							<option value="2" style="font-size:0.66em">Très Petite Police</option>
+							<option value="3" style="font-size:1em">Petite Police</option>
+							<option value="4" style="font-size:1.33em">Police Normal</option>
+							<option value="5" style="font-size:1.66em" selected>Font size 4 </option>
+							<option value="6" style="font-size:2em">Font size 5 </option>
+							<option value="7" style="font-size:2.33em">Font size 6 </option>
+							<option value="8" style="font-size:2.67em">Font size 7 </option>
+							<option value="9" style="font-size:3em">Font size 8 </option>
+							<option value="10" style="font-size:3.33em">Font size 9 </option>
+						</select>
+						<script> document.getElementById("TailleChar").size = document.getElementById("TailleChar").options.length *2.9; </script>
+						<script> redimensionneListe("TailleChar",2.8) </script>
+					</div>
 					</br>
 				</div>
 			</fieldset>
